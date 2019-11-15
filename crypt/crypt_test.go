@@ -6,7 +6,7 @@ func TestEncrypt(t *testing.T) {
 	plainText := "This is a plain text data"
 	secretKey := "NotSoSecret"
 
-	encryptedData := Encrypt([]byte(plainText), secretKey)
+	encryptedData, _ := Encrypt([]byte(plainText), secretKey)
 
 	if encryptedText := string(encryptedData); encryptedText == plainText {
 		t.Errorf("Encrypted data shouldn't be equals to the plain text data: (expected %s != %s)", plainText, encryptedText)
@@ -17,7 +17,7 @@ func TestDecrypt(t *testing.T) {
 	plainText := "This is a plain text data"
 	secretKey := "NotSoSecret"
 
-	encryptedData := Encrypt([]byte(plainText), secretKey)
+	encryptedData, _ := Encrypt([]byte(plainText), secretKey)
 	decryptedData, _ := Decrypt(encryptedData, secretKey)
 
 	if decryptedText := string(decryptedData); decryptedText != plainText {
@@ -29,7 +29,7 @@ func TestDecryptFailureWithDifferentSecret(t *testing.T) {
 	plainText := "This is a plain text data"
 	secretKey := "NotSoSecret"
 
-	encryptedData := Encrypt([]byte(plainText), secretKey)
+	encryptedData, _ := Encrypt([]byte(plainText), secretKey)
 	_, err := Decrypt(encryptedData, "DifferentSecretKey")
 
 	if err == nil {
@@ -71,7 +71,7 @@ func BenchmarkEncryptDecrypt(b *testing.B) {
 	secretKey := "}#?~f6^}K/$E-T#Bg*g!Kd-V#fZ'}nJe"
 
 	for n := 0; n < b.N; n++ {
-		encryptedData := Encrypt([]byte(plainText), secretKey)
+		encryptedData, _ := Encrypt([]byte(plainText), secretKey)
 		Decrypt(encryptedData, secretKey)
 	}
 }

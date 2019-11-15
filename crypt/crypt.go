@@ -6,32 +6,33 @@ import (
 	"crypto/rand"
 	"fmt"
 	"io"
-	"log"
 )
 
-func Encrypt(data []byte, secret string) []byte {
+// Encrypt encrypts the data using the AES algorithm, creating a passphrase with the provided secret
+func Encrypt(data []byte, secret string) ([]byte, error) {
 	passphrase := []byte(CreatePassphrase(secret))
 	block, err := aes.NewCipher(passphrase)
 
 	if err != nil {
-		log.Panicf("Error while trying to create a cipher block: %v", err)
+		return nil, fmt.Errorf("Error while trying to create a cipher block: %v", err)
 	}
 
 	gcm, err := cipher.NewGCM(block)
 
 	if err != nil {
-		log.Panicf("Error while creating the Galois Counter: %v", err)
+		return nil, fmt.Errorf("Error while creating the Galois Counter: %v", err)
 	}
 
 	nonce := make([]byte, gcm.NonceSize())
 
 	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
-		log.Panicf(err.Error())
+		return nil, err
 	}
 
-	return gcm.Seal(nonce, nonce, data, nil)
+	return gcm.Seal(nonce, nonce, data, nil), nil
 }
 
+// Decrypt Decrypt the data using the AES algorithm, using the secret as key to the passphrase
 func Decrypt(data []byte, secret string) ([]byte, error) {
 	passphrase := []byte(CreatePassphrase(secret))
 	block, err := aes.NewCipher(passphrase)

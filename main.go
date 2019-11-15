@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -9,16 +8,23 @@ import (
 )
 
 func main() {
-	args := os.Args[1:]
+	secret := "calopsita"
 
-	fmt.Printf("Encrypting %v...\n", args)
-	result := crypt.Encrypt([]byte(args[0]), "calopsita")
-
-	decrypted, err := crypt.Decrypt(result, "calopsita")
+	f, _ := os.Create("teste-encrypt.txt")
+	err := crypt.EncryptFileContent("teste.txt", secret, f)
 
 	if err != nil {
-		log.Panicln(err)
+		log.Panic(err)
 	}
 
-	fmt.Println(string(result), string(decrypted))
+	f.Close()
+
+	f, _ = os.Create("teste-decrypt.txt")
+	defer f.Close()
+
+	err = crypt.DecryptFileContent("teste-encrypt.txt", secret, f)
+
+	if err != nil {
+		log.Panic(err)
+	}
 }

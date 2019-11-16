@@ -17,8 +17,8 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "crypt",
-	Short: "Crypt is a utility-tool to easily encrypt and decrypt files using AES.",
+	Use:   "go-crypt",
+	Short: "Go-crypt is a utility-tool to easily encrypt and decrypt files using AES.",
 	Run: func(cmd *cobra.Command, args []string) {
 
 	},

@@ -81,7 +81,7 @@ This option allow you to save the encrypted data into a new file. If it is not p
 
 ## Commands
 
-The two commands avaliable are self-explanatory: the **encrypt** and **decrypt** commands. In the examples showed above it was made clear how to use them too. Also, you can get more details about the commands and flags running:
+The two commands available are self-explanatory: the **encrypt** and **decrypt** commands. In the examples showed above it was made clear how to use them too. Also, you can get more details about the commands and flags running:
 
 ```sh
 go-crypt --help
